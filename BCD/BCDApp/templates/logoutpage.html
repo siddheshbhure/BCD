@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Business Case Documents
+{% endblock %}
+
+{% block nav %}
+{% with landing="/login" %}
+    {{ block.super }}
+{% endwith %}
+{% endblock %}
+
+
+{% block sidebar %}
+{{block.super}}
+{% block mute %}
+
+{% endblock %}
+{% endblock %}
+    
+    {% block page-content %}
+    <!-- Start content-page -->
+    <div class="content-page" style="margin-left: 200px;">
+        <!-- Start content -->
+        <div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="breadcrumb-holder">
+                            <h1 class="main-title float-left">Business Case Document List</h1>
+                            <ol class="breadcrumb float-right">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active">List Of BCD</li>
+                            </ol>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+                {% if msg|length > 0 %}
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>{{msg}}</strong>
+                </div>
+
+                {% endif %}
+                <p class="card-header" style="font-size: 15px;"><b>Session Expired kindly click <a href="/login">here</a> to login.</b></p>
+            </div>
+            <!-- END container-fluid -->
+
+        </div>
+        <!-- END content -->
+    </div>
+    <!-- END content-page -->
+    {% endblock %}
+
+<!-- END main -->
+{% block js %}
+    <!-- App js -->
+    <script src="{% static 'assets/js/pikeadmin.js' %}"></script>
+
+    <!-- BEGIN Java Script for this page -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Counter-Up-->
+    <script src="{% static 'assets/plugins/waypoints/lib/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/counterup/jquery.counterup.min.js' %}"></script>         
+
+{% endblock %}

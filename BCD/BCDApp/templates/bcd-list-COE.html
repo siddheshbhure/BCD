@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Business Case Documents
+{% endblock %}
+
+{% block nav %}
+   {% with landing="/bcd-list-COE" %}
+    {{ block.super }}
+{% endwith %}
+{% endblock %}
+
+{% block sidebar %}
+{% with sample="/bcd-list-COE" %}
+    {{ block.super }}
+{% endwith %}
+{% block mute %}
+{% with sample2="#" %}
+    {{ block.super }}
+{% endwith %}
+{% endblock %}
+{% endblock %}
+    {% block page-content %}
+    <!-- Start content-page -->
+    <div class="content-page" style="margin-left: 200px;">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="breadcrumb-holder">
+                            <h1 class="main-title float-left">Business Case Document List</h1> 
+                            <ol class="breadcrumb float-right">
+                                <li class="breadcrumb-item"><a href="/bcd-list-COE">Home</a></li>
+                                <li class="breadcrumb-item active">List Of BCD</li>
+                            </ol>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+                {% if msg|length > 0 %}
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>{{msg}}</strong>
+                </div>
+
+                {% endif %}
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>List Of Business Case Document</h3>
+                            </div>
+                            <div class="card-body">
+                                <table id="example" class="table table-striped table-bordered" style="font-size: 11;">
+                                    <thead>
+                                      <tr>
+                                            <th>BCD_no</th>
+                                            <th>Requestor Name</th>
+                                            <th>BCD amount</th>
+                                            <th>BCD overview</th>
+                                            <th>Status</th>
+                                            
+                                            
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% for bcd in bcd_list_COE %}
+                                            <tr >
+                                                <td>
+                                                    <a href="{% url 'BCD-COE' bcd.pk %}">{{ bcd.BCD_no }}</a>
+                                                </td>
+                                                <td>{{ bcd.requestor_name }}</td>
+                                                <td>{{ bcd.BCD_amount }}</td>
+                                                <td>{{ bcd.BCD_summary }}</td>
+                                                <td style="color: red;">{{ bcd.status }}</td>
+                                                
+                                                
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>       
+                                </table>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>          
+            </div>
+            <!-- END container-fluid -->
+
+        </div>
+        <!-- END content -->
+    </div>
+    <!-- END content-page -->
+    {% endblock %}
+
+<!-- END main -->
+{% block js %}
+    <!-- App js -->
+    <script src="{% static 'assets/js/pikeadmin.js' %}"></script>
+
+    <!-- BEGIN Java Script for this page -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Counter-Up-->
+    <script src="{% static 'assets/plugins/waypoints/lib/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/counterup/jquery.counterup.min.js' %}"></script>         
+
+{% endblock %}

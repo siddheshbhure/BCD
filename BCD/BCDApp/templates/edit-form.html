@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Tax Filling Application :: Dashboard
+{% endblock %}
+{{super}}
+
+{% block stylesheet %}
+<style>
+
+.glyphicon.spinning {
+    animation: spin 1s infinite linear;
+    -webkit-animation: spin2 1s infinite linear;
+}
+ 
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
+ 
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+ 
+.glyphicon-left {
+    margin-right: 7px;
+}
+
+</style>
+
+{% endblock %}
+
+{% block nav %}
+{% with landing="/bcd-list" %}
+    {{ block.super }}
+{% endwith %}
+{% endblock %}
+
+{% block sidebar %}
+    {%block mute %}
+        {% with sample2="/new-bcd" %}
+            {{ block.super }}
+        {% endwith %}
+    {% endblock %}
+
+    {% with sample="/bcd-list" %}
+        {{ block.super }}
+    {% endwith %}
+
+
+
+{% endblock %}
+
+    {% block page-content %}
+    <!-- Start content-page -->
+    <div class="content-page" style="margin-left:  200px;">
+        <!-- Start content -->
+        <div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="breadcrumb-holder">
+                            <h1 class="main-title float-left">New Tax Filling Application</h1>
+                            <ol class="breadcrumb float-right">
+                                <li class="breadcrumb-item"><a href="/bcd-list">Home</a></li>
+                                <li class="breadcrumb-item active">Edit TFA</li>
+                            </ol>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+                {% if msg|length > 0 %}
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>{{msg}}</strong>
+                </div>
+
+                {% endif %}
+               
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>TFA Ticket No :- {{ BCD_no }}</h3>
+                            </div>
+                            <div class="card-body">
+
+                                <form  id="new-form" method="POST" action="" enctype="multipart/form-data" autocomplete="off">{% csrf_token %}
+                                {% for f in form %}
+                                    <div class="row" >
+                                            <div class="col-md-2">
+
+                                                {{ f.label_tag }}
+                                                
+                                            </div>
+                                            <div class="col-md-8">
+                                                {{ f }}
+                                      
+                                            </div>
+                                    </div>
+                                    {% endfor %}
+                                {% if bcd.status|slice:":7"  == 'Pending' %}
+                                <button type="submit" id="Update" name="Update" value="Update" class="btn btn-success float-right" disabled="True">Pending</button>
+
+                                {% else %}
+
+                                 <button type="submit" id="Update" name="Update" value="Update" class="btn btn-success float-right">Update</button>
+                                {% endif %}
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>          
+            </div>
+            <!-- END container-fluid -->
+
+        </div>
+        <!-- END content -->
+    </div>
+    <!-- END content-page -->
+    {% endblock %}
+
+<!-- END main -->
+{% block js %}
+    <!-- App js -->
+    <script src="{% static 'assets/js/pikeadmin.js' %}"></script>
+
+    <!-- BEGIN Java Script for this page -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Counter-Up-->
+    <script src="{% static 'assets/plugins/waypoints/lib/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/counterup/jquery.counterup.min.js' %}"></script>         
+
+{% endblock %}

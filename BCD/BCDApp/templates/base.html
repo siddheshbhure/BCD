@@ -1,0 +1,412 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>{% block title %}Business Case Document {% endblock title %}</title>
+    <meta name="description" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico' %}">
+
+    <!-- Bootstrap CSS -->
+    
+    
+    <!-- BEGIN CSS for this page -->
+    
+    
+    
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css"/>
+    
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"> -->
+    
+
+    
+    
+    {% block script %}
+
+
+    
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    
+    <!-- Font Awesome CSS -->
+    <link href="{% static 'assets/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css" />
+    
+    <!-- Custom CSS -->
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet" type="text/css" />
+
+    <script src="{% static 'assets/js/moment.min.js' %}"></script>
+      
+  <!-- <script src="{% static 'assets/js/popper.min.js' %}"></script> -->
+  
+
+  <script src="{% static 'assets/js/detect.js' %}"></script>
+  <script src="{% static 'assets/js/fastclick.js' %}"></script>
+  <!-- <script src="{% static 'assets/js/jquery.blockUI.js' %}"></script> -->
+    <script src="{% static 'assets/js/jquery.nicescroll.js' %}"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="{% static 'formset/jquery.formset.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript">
+    $( document ).ready(function() 
+    {
+      i=0;
+      // $("#id_end_date").datepicker({ changeMonth: true, changeYear: true});
+      // $("#id_start_date").datepicker( {changeMonth: true, changeYear: true});
+
+      // $("input[id$='_date']").datepicker({ changeMonth: true, changeYear: true});
+      // // $("#id_Grids-0-end_date").datepicker( {changeMonth: true, changeYear: true});
+
+      // $('*[id*=start_date]').on('focus', function()
+      // {
+      //   // alert('yee..');
+      //   $(this).datepicker( {changeMonth: true, changeYear: true});
+      // });
+
+    (function($) 
+    {
+    $.fn.inputFilter = function(inputFilter) {
+    return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function() 
+    {
+      if (inputFilter(this.value)) 
+      {
+        this.oldValue = this.value;
+        this.oldSelectionStart = this.selectionStart;
+        this.oldSelectionEnd = this.selectionEnd;
+      } else if (this.hasOwnProperty("oldValue")) {
+        this.value = this.oldValue;
+        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+      }
+    });
+    };
+    }(jQuery));  
+
+    $("#id_BCD_amount").inputFilter(function(value)
+    {
+      return /^\d*$/.test(value); 
+    });
+     
+
+
+      $(".formset_row").formset({
+            addText: 'Add Document',
+            deleteText: 'Remove',
+            prefix: 'Grids',
+      });
+      // $(".delete-row").css("float:right");
+      var table = $('#example').DataTable({"bPaginate": false,
+    "bLengthChange": false,
+    "bFilter": false,
+    "bInfo": false,
+    "bAutoWidth": false});
+    });
+
+    
+
+  </script>
+
+    {% endblock %}
+
+    {% block stylesheet %}
+    <style type="text/css">
+    .dataTables_filter 
+    {
+      width: 50%;
+      float: right;
+      text-align: right;
+    }
+    </style>
+
+    {% endblock %}
+
+  <!-- HERE -->
+  </head>
+
+  <body>
+    {% block body %}  <!-- HERE -->
+
+    {% block nav %}
+      <!-- top bar navigation -->
+      <div class="headerbar">
+
+        <!-- LOGO -->
+        <div class="headerbar-left">
+          <a href="{{ landing }}" class="logo">
+            <!-- <img alt="Logo" src="{% static 'assets/images/rbl.jpg' %}" /> -->
+            <span>BCD Initiation Portal</span></a>
+        </div>
+
+            <nav class="navbar-custom">
+              <ul class="list-inline float-right mb-0">
+                <!-- <li class="list-inline-item dropdown notif">
+                  <a class="nav-link dropdown-toggle arrow-none" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                      <i class="fa fa-fw fa-question-circle"></i>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right dropdown-arrow dropdown-arrow-success dropdown-lg">
+                      
+                      <div class="dropdown-item noti-title">
+                          <h5><small>Help and Support</small></h5>
+                      </div>
+
+                      
+                      <a target="_blank" href="#" class="dropdown-item notify-item">                                    
+                          <p class="notify-details ml-0">
+                              <b>Sample Hepl 1</b>
+                              <span>Contact Us</span>
+                          </p>
+                      </a>
+
+                      
+                      <a target="_blank" href="#" class="dropdown-item notify-item">                                    
+                          <p class="notify-details ml-0">
+                              <b>Sample Help 2</b>
+                              <span>How I can Help you</span>
+                          </p>
+                      </a>                               
+
+                      
+                      <a title="Clcik to visit Pike Admin Website" target="_blank" href="#" class="dropdown-item notify-item notify-all">
+                          <i class="fa fa-link"></i> Contact RBL TFA Team
+                      </a>
+
+                  </div>
+                </li> --> 
+
+                <!-- <li class="list-inline-item dropdown notif">
+                    <a class="nav-link dropdown-toggle arrow-none" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                        <i class="fa fa-fw fa-envelope-o"></i><span class="notif-bullet"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-arrow dropdown-arrow-success dropdown-lg">
+                        
+                        <div class="dropdown-item noti-title">
+                            <h5><small><span class="label label-danger pull-xs-right">12</span>Contact Messages</small></h5>
+                        </div>
+
+                        
+                        <a href="#" class="dropdown-item notify-item">                                    
+                            <p class="notify-details ml-0">
+                                <b>Jokn Doe</b>
+                                <span>New message received</span>
+                                <small class="text-muted">2 minutes ago</small>
+                            </p>
+                        </a>
+
+                        
+                        <a href="#" class="dropdown-item notify-item">                                    
+                            <p class="notify-details ml-0">
+                                <b>Michael Jackson</b>
+                                <span>New message received</span>
+                                <small class="text-muted">15 minutes ago</small>
+                            </p>
+                        </a>
+
+                        
+                        <a href="#" class="dropdown-item notify-item">                                    
+                            <p class="notify-details ml-0">
+                                <b>Foxy Johnes</b>
+                                <span>New message received</span>
+                                <small class="text-muted">Yesterday, 13:30</small>
+                            </p>
+                        </a>
+
+                        
+                        <a href="#" class="dropdown-item notify-item notify-all">
+                            View All
+                        </a>
+
+                    </div>
+                </li> -->
+                            
+                <!-- <li class="list-inline-item dropdown notif">
+                  <a class="nav-link dropdown-toggle arrow-none" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                      <i class="fa fa-fw fa-bell-o"></i><span class="notif-bullet"></span>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right dropdown-arrow dropdown-lg">
+      
+                      <div class="dropdown-item noti-title">
+                          <h5><small><span class="label label-danger pull-xs-right">5</span>Allerts</small></h5>
+                      </div>
+      
+                      
+                      <a href="#" class="dropdown-item notify-item">
+                          <div class="notify-icon bg-faded">
+                              <img src="{% static 'assets/images/avatars/avatar1.png' %}" alt="img" class="rounded-circle img-fluid">
+                          </div>
+                          <p class="notify-details">
+                              <b>John Doe</b>
+                              <span>User registration</span>
+                              <small class="text-muted">3 minutes ago</small>
+                          </p>
+                      </a>
+
+                      
+                      <a href="#" class="dropdown-item notify-item">
+                          <div class="notify-icon bg-faded">
+                              <img src="{% static 'assets/images/avatars/avatar3.png' %}" alt="img" class="rounded-circle img-fluid">
+                          </div>
+                          <p class="notify-details">
+                              <b>Michael Cox</b>
+                              <span>Task 2 completed</span>
+                              <small class="text-muted">12 minutes ago</small>
+                          </p>
+                      </a>
+
+                      
+                      <a href="#" class="dropdown-item notify-item">
+                          <div class="notify-icon bg-faded">
+                              <img src="{% static 'assets/images/avatars/avatar4.png' %}" alt="img" class="rounded-circle img-fluid">
+                          </div>
+                          <p class="notify-details">
+                              <b>Michelle Dolores</b>
+                              <span>New job completed</span>
+                              <small class="text-muted">35 minutes ago</small>
+                          </p>
+                      </a>
+
+                      
+                      <a href="#" class="dropdown-item notify-item notify-all">
+                          View All Allerts
+                      </a>
+                  </div>
+              </li> -->
+
+              
+              <!--<li class="list-inline-item dropdown notif">
+                  <a class="nav-link dropdown-toggle nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                      <img src="{% static 'assets/images/avatars/admin.png' %}" alt="Profile image" class="avatar-rounded">
+                  </a> -->
+                <!--   <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                      
+                      <div class="dropdown-item noti-title">
+                          <h5 class="text-overflow"><small>Hello, {{username}}</small> </h5>
+                      </div>
+
+                      
+                      <a href="#" class="dropdown-item notify-item">
+                          <i class="fa fa-user"></i> <span>Profile</span>
+                      </a>
+
+                      
+                      <a href="/login" class="dropdown-item notify-item">
+                          <i class="fa fa-power-off"></i> <span>Logout</span>
+                      </a>
+      
+                  </div> 
+               
+      
+              </li>-->
+              <div class="headerbar-right">
+                  <a href="/logout" class="logo">
+            
+                  <span>logout</span></a>
+
+                 </h5>  
+                
+              </div>
+
+                
+          
+            </ul>
+            <ul class="list-inline menu-left mb-0">
+                <li class="float-left">
+                    <button class="button-menu-mobile open-left">
+                      <!-- <i class="fa fa-fw fa-bars"></i> -->
+                    </button>
+                </li>                        
+            </ul>
+          </nav>
+      </div>
+      <!-- End Navigation -->
+    {% endblock nav %}
+
+    {% block sidebar %}
+      <!-- Left Sidebar -->
+    <div class="left main-sidebar" style="width: 200px;">  
+      <div class="sidebar-inner leftscroll">
+        <div id="sidebar-menu">      
+          <ul>
+            <!-- <li class="submenu">
+               <a class="{% if menu|length == 0 %}active{% endif %}" href="/dashboard"><i class="fa fa-fw fa-bars"></i><span> Dashboard </span> </a> 
+            </li> -->
+            {% block mute %}
+             <li class="submenu">
+                <a href="#"><i class="fa fa-fw fa-file-text-o"></i> New <span class="menu-arrow"></span></a>
+                    <ul class="list-unstyled">
+                        <li><a href="{{ sample2 }}">Create New BCD</a></li>
+                        <!-- <li><a href="/list-tfa">List Of TFA</a></li> -->
+                    </ul>
+            </li>
+            {% endblock mute %}
+            
+            <li class="submenu">
+              <a href="#"><i class="fa fa-fw fa-tv"></i> <span> BCD Status </span> <span class="menu-arrow"></span></a>
+                <ul class="list-unstyled">
+                  <li><a href="{{ sample }}">List Of BCD</a></li>
+                  <!-- <li><a href="#">Pending by Checking Process</a></li>
+                  <li><a href="#">Pending by Operation Team</a></li>
+                  <li><a href="#">Completed TFA</a></li> -->
+                </ul>
+            </li>
+        
+           <!--  <li class="submenu">
+              <a href="#"><span class="label radius-circle bg-primary float-right">9</span><i class="fa fa-fw fa-indent"></i><span> Sample Application </span></a>
+              <ul>
+                <li>
+                  <a href="#"><span>New Application</span></a>
+                </li>
+                <li class="submenu">
+                  <a href="#"><span>List Of Application</span> <span class="menu-arrow"></span> </a>
+                    <ul style="">
+                        <li><a href="#"><span>Pending 1</span></a></li>
+                        <li><a href="#"><span>Pending 2</span></a></li>
+                    </ul>
+                </li>                                
+              </ul>
+            </li> -->
+
+           <!--  <li class="submenu">
+              <a class="pro" href="#"><i class="fa fa-fw fa-star"></i><span> TFA Help Desk </span> <span class="menu-arrow"></span></a>
+                  <ul class="list-unstyled">                
+                      <li><a target="_blank" href="#">TFA Help Desk 1</a></li>
+                  </ul>
+            </li> -->
+          </ul>
+      <!-- <div class="clearfix"></div> -->
+    </div>        
+    <!-- <div class="clearfix"></div> -->
+    </div>
+    </div>
+    <!-- End Sidebar -->
+    {% endblock sidebar %}
+
+    {% block page-content %}
+
+    {% endblock page-content %}
+
+    {% block footer %}
+    <!-- <footer class="footer" style="margin-left: 0px">
+      <span style="margin-left: 0px;">
+      Copyright <a target="_blank" href="#">RBL Bank</a>
+      </span>
+      <span class="float-right">
+      Powered by <a target="_blank" href="#"><b>Django</b></a>
+      </span>
+    </footer>
+      </div> -->
+    {% endblock footer %}
+
+
+
+  
+  
+{% block js %}
+
+{% endblock js %}
+
+</body>
+{% endblock body %}
+</html>

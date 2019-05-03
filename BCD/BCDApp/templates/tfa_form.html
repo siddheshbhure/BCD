@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Tax Filling Application :: Dashboard
+{% endblock %}
+{{super}}
+{% block script %}
+
+<script type="text/javascript">
+$(document).ready(function()
+{
+    $("#id_name").attr('readonly', true);
+    $("#id_address").attr('readonly', true);
+    $("#id_email").attr('readonly', true);
+    $("#id_mobile").attr('readonly', true);
+    
+    
+    $("#fetchPAN").click( function()
+    {
+
+        //e.preventDefault();
+        // alert("called..");
+        doc_i=$('#id_pan').val();
+
+        url="{% url 'fetch_pan' %}";
+        // alert(doc_i);
+        $("#fetchPAN").html('Loading');
+        $("#fetchPAN").prop('disabled', true);
+
+     
+        $.ajax({ 
+            type: 'GET',  
+            url: url,                    
+            data: 
+            {
+            'doc_i': doc_i     
+            },
+            success: function (data)
+            {
+
+                $("#id_name").val(data);
+                $("#fetchPAN").prop('disabled', false);
+                $("#fetchPAN").html('Fetch Details');
+ 
+
+            }
+              
+        });
+
+    });
+
+
+    $("#fetchCustDetails").click( function()
+    {
+
+        //e.preventDefault();
+        // alert("called..");
+        doc_cif=$('#id_account_no').val();
+
+        url="{% url 'fetch_CustDetails' %}";
+        // alert(doc_i);
+        $("#fetchCustDetails").html('Loading');
+        $("#fetchCustDetails").prop('disabled', true);
+
+     
+        $.ajax({ 
+            type: 'GET',  
+            url: url,                    
+            data: 
+            {
+            'doc_cif': doc_cif     
+            },
+            success: function (data)
+            {
+
+                 
+                // alert(data);
+                var arr=data.split('|');
+                // alert(arr[1]);
+                $("#id_address").val(arr[0]);
+                $("#id_email").val(arr[1]);
+                $("#id_mobile").val(arr[2]);
+                $("#fetchCustDetails").prop('disabled', false);
+                $("#fetchCustDetails").html('Fetch Customer Details.');
+ 
+
+            }
+              
+        });
+
+    });
+});    
+</script>
+{% endblock %}
+{% block stylesheet %}
+<style>
+
+.glyphicon.spinning {
+    animation: spin 1s infinite linear;
+    -webkit-animation: spin2 1s infinite linear;
+}
+ 
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
+ 
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+ 
+.glyphicon-left {
+    margin-right: 7px;
+}
+
+</style>
+
+{% endblock %}
+    {% block page-content %}
+    <!-- Start content-page -->
+    <div class="content-page">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="breadcrumb-holder">
+                            <h1 class="main-title float-left">New Tax Filling Application</h1>
+                            <ol class="breadcrumb float-right">
+                                <li class="breadcrumb-item">Home</li>
+                                <li class="breadcrumb-item active">New TFA</li>
+                            </ol>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+                
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Create New TFA</h3>
+                            </div>
+                            <div class="card-body">
+
+                                <form  id="new-form" method="POST" action="" enctype="multipart/form-data" autocomplete="off">{% csrf_token %}
+                                {% for f in form %}
+                                    <div class="row" >
+                                            <div class="col-md-4">
+
+                                                {{ f.label_tag }}
+                                                
+                                            </div>
+                                            <div class="col-md-8">
+                                                {{ f }}
+                                                {% if f.label == 'Pan' %}
+                                                  <button id="fetchPAN" name="fetchPAN" class="btn-info" data-loading-text="<span class='glyphicon-left glyphicon glyphicon-refresh spinning'></span>Processing ...">Fetch Details.
+                                                {% elif f.label == 'Account no' %}
+                                                    <button id="fetchCustDetails" name="fetchPAN" class="btn-info" data-loading-text="<span class='glyphicon-left glyphicon glyphicon-refresh spinning'></span>Processing ...">Fetch Customer Details.
+                                                {% else %}
+
+                                                {% endif %}
+                                            </div>
+                                    </div>
+                                    {% endfor %}
+                                 <button type="submit" id="save" name="save" value="Save" class="btn btn-success float-right">Create</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>          
+            </div>
+            <!-- END container-fluid -->
+
+        </div>
+        <!-- END content -->
+    </div>
+    <!-- END content-page -->
+    {% endblock %}
+
+<!-- END main -->
+{% block js %}
+    <!-- App js -->
+    <script src="{% static 'assets/js/pikeadmin.js' %}"></script>
+
+    <!-- BEGIN Java Script for this page -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Counter-Up-->
+    <script src="{% static 'assets/plugins/waypoints/lib/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/counterup/jquery.counterup.min.js' %}"></script>         
+
+{% endblock %}

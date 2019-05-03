@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}
+Tax Filling Application :: Dashboard
+{% endblock %}
+{{super}}
+
+{% block stylesheet %}
+<style>
+
+.glyphicon.spinning {
+    animation: spin 1s infinite linear;
+    -webkit-animation: spin2 1s infinite linear;
+}
+ 
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
+ 
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+ 
+.glyphicon-left {
+    margin-right: 7px;
+}
+
+</style>
+
+{% endblock %}
+{% block nav %}
+{% with landing="/bcd-list" %}
+    {{ block.super }}
+{% endwith %}
+{% endblock %}
+
+{% block sidebar %}
+<div class="left main-sidebar" style="width: 200px;">  
+      <div class="sidebar-inner leftscroll">
+        <div id="sidebar-menu">      
+          <ul>
+            <!-- <li class="submenu">
+               <a class="{% if menu|length == 0 %}active{% endif %}" href="/dashboard"><i class="fa fa-fw fa-bars"></i><span> Dashboard </span> </a> 
+            </li> -->
+            
+            <li class="submenu">
+              <a href="#"><i class="fa fa-fw fa-tv"></i> <span> List of PR </span> <span class="menu-arrow"></span></a>
+                <ul class="list-unstyled" style="overflow-y: scroll; height: 520px;">
+                  {% for l in PRs %}  
+                  <li><a href="{% url 'view-pr' BCD_no l.id 0 %}" style="color: white;">{{l}}</a></li>
+                  {% endfor %}
+                  <!-- <li><a href="#">Pending by Checking Process</a></li>
+                  <li><a href="#">Pending by Operation Team</a></li>
+                  <li><a href="#">Completed TFA</a></li> -->
+                </ul>
+            </li>
+        
+           <!--  <li class="submenu">
+              <a href="#"><span class="label radius-circle bg-primary float-right">9</span><i class="fa fa-fw fa-indent"></i><span> Sample Application </span></a>
+              <ul>
+                <li>
+                  <a href="#"><span>New Application</span></a>
+                </li>
+                <li class="submenu">
+                  <a href="#"><span>List Of Application</span> <span class="menu-arrow"></span> </a>
+                    <ul style="">
+                        <li><a href="#"><span>Pending 1</span></a></li>
+                        <li><a href="#"><span>Pending 2</span></a></li>
+                    </ul>
+                </li>                                
+              </ul>
+            </li> -->
+
+           <!--  <li class="submenu">
+              <a class="pro" href="#"><i class="fa fa-fw fa-star"></i><span> TFA Help Desk </span> <span class="menu-arrow"></span></a>
+                  <ul class="list-unstyled">                
+                      <li><a target="_blank" href="#">TFA Help Desk 1</a></li>
+                  </ul>
+            </li> -->
+          </ul>
+      <!-- <div class="clearfix"></div> -->
+    </div>        
+    <!-- <div class="clearfix"></div> -->
+    </div>
+    </div>
+
+
+{% endblock %}
+
+
+    {% block page-content %}
+    <!-- Start content-page -->
+    <div class="content-page" style="margin-left: 180px;">
+        <!-- Start content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div >
+                    <div class="col-xl-12">
+                        <div class="breadcrumb-holder">
+                            <h1 class="main-title float-left">New PR Initiation</h1>
+                            <ol class="breadcrumb float-right">
+                                <li class="breadcrumb-item"><a href="/bcd-list">Home</a></li>
+                                <li class="breadcrumb-item active"><a href="{% url 'new-pr' BCD_no %}">New PR</a></li>
+                            </ol>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+                {% if msg|length > 0 %}
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>{{msg}}</strong>
+                </div>
+                {% endif %}
+                <div >
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>BCD NO - {{ BCD_no }}  &nbsp;&nbsp;&nbsp;&nbsp; BCD Amount - {{BCD_amount}} &nbsp;&nbsp;&nbsp;&nbsp; PR No - {{PR_No}}  </h3>
+                            </div>
+                            <div class="card-body">
+
+                                <form  id="new-form" method="POST" action="" enctype="multipart/form-data" autocomplete="off">
+                                    {% csrf_token %}
+    
+                                    <div class="row">
+                                        {% for f in form %}
+                                                {% if forloop.counter|divisibleby:"4" %}
+                                                    </div>
+                                                    {% if not forloop.last %}
+                                                    <div class="row">
+                                                    {% endif %}
+                                                {% endif %}
+                                                    <div class="col-md-2">
+                                                        <b>{{ f.label_tag }}</b>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        {{ f }}
+                                                        
+                                            </div>
+                                            {% endfor %}
+                                            </div>
+                               
+
+                                <hr>
+                                
+                                <table class="table" style="height: 10px;">
+                                    {{ PRmembers.management_form }}
+
+                                    {% for form in PRmembers.forms %}
+                                    {% if forloop.first %}
+                                    <thead>
+                                    <th>
+                                    PR Initiation Fields
+                                    </th>
+                                    </thead>
+                                    {% endif %}
+                                    <tr class="{% cycle row1 row2 %} formset_row" >
+                                        <td>
+                                            <div class="row">
+
+                                        
+                                            {% for field in form.visible_fields %}
+
+                                                {% if forloop.counter0|divisibleby:"3" %}
+                                                    </div> <br>
+                                                    {% if not forloop.last %}
+                                                    <div class="row">
+                                                    {% endif %}
+                                                {% endif %}
+                                            <div class="col-md-2">
+                                             {{ field.label }}
+                                            </div>
+                                            <br>
+                                            <div class="col-md-2">
+                                                
+                                                {{ field.errors.as_ul }}
+                                            {{ field }}
+                                            </div>
+
+                                        <!-- </div> -->
+                                            {% endfor %}
+                                            <br><br>
+                                        
+                                    </td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+`                               <br>
+                                <br>
+
+                                <button id="save" name="save" value="Save" class="btn btn-success float-right"><a href="{% url 'generate-pdf' prpk%}" style="color: white;"> Download</a></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>          
+            </div>
+            <!-- END container-fluid -->
+
+        </div>
+        <!-- END content -->
+    </div>
+    <!-- END content-page -->
+    {% endblock %}
+{% block footer%}
+{% endblock %}
+<!-- END main -->
+{% block js %}
+    <!-- App js -->
+    <script src="{% static 'assets/js/pikeadmin.js' %}"></script>
+
+    <!-- BEGIN Java Script for this page -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Counter-Up-->
+    <script src="{% static 'assets/plugins/waypoints/lib/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/counterup/jquery.counterup.min.js' %}"></script>         
+
+{% endblock %}
